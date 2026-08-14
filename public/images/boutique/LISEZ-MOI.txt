@@ -1,0 +1,11 @@
+Déposez ici les photos des produits de la boutique.
+
+Puis, dans  src/data/products.js , indiquez le nom du fichier
+dans le champ "image" du produit concerné.
+
+Exemple :
+  - fichier déposé  : public/images/boutique/tshirt-bio.jpg
+  - dans products.js: image: 'tshirt-bio.jpg'
+
+Formats conseillés : .jpg ou .webp, format carré (ex : 800x800).
+Tant qu'aucune image n'est renseignée, un placeholder s'affiche.

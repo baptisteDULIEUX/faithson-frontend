@@ -1,0 +1,72 @@
+/* =========================================================
+   Styles partagés de l'espace admin (préfixe .adm-)
+   ========================================================= */
+.adm-page { padding: 26px 30px; }
+.adm-page-head { margin-bottom: 22px; }
+.adm-page-head h1 { font-size: 1.6rem; font-weight: 900; }
+.adm-page-head p { color: var(--ink-soft); font-size: 0.9rem; margin-top: 4px; }
+
+/* cartes / panneaux */
+.adm-card { background: var(--panel); border: 1.5px solid var(--line); border-radius: 12px; overflow: hidden; }
+.adm-card-head { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1.5px solid var(--line); }
+.adm-card-head h2 { font-size: 1.1rem; font-weight: 900; }
+.adm-card-head .hand { margin-left: auto; font-family: 'Caveat', cursive; color: var(--brick); font-size: 1.1rem; }
+
+/* KPIs */
+.adm-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 24px; }
+.adm-kpi { background: var(--panel); border: 1.5px solid var(--line); border-radius: 12px; padding: 20px; position: relative; }
+.adm-kpi .k-lbl { font-size: 0.78rem; color: var(--ink-soft); font-weight: 700; }
+.adm-kpi .k-val { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.9rem; margin-top: 6px; line-height: 1; }
+.adm-kpi .k-tr { font-size: 0.78rem; margin-top: 8px; font-weight: 700; color: var(--sage); }
+.adm-kpi .k-ic { position: absolute; top: 16px; right: 18px; font-size: 1.2rem; opacity: 0.5; }
+
+/* tableaux */
+.adm-table { width: 100%; border-collapse: collapse; }
+.adm-table thead th { text-align: left; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; padding: 13px 20px; border-bottom: 1.5px solid var(--line); }
+.adm-table tbody td { padding: 13px 20px; border-bottom: 1px solid var(--line); font-size: 0.9rem; vertical-align: middle; }
+.adm-table tbody tr { cursor: pointer; transition: 0.12s; }
+.adm-table tbody tr:hover { background: var(--cream-2); }
+.adm-ref { font-family: 'Fraunces', serif; font-weight: 900; }
+.adm-cli { font-weight: 700; }
+.adm-cli small { display: block; font-weight: 400; color: var(--ink-soft); font-size: 0.78rem; }
+.adm-amt { font-family: 'Fraunces', serif; font-weight: 900; text-align: right; }
+.adm-tech { font-family: 'Caveat', cursive; font-weight: 700; color: var(--sage); font-size: 1.05rem; }
+
+/* badges de statut */
+.adm-badge { display: inline-flex; align-items: center; gap: 0.4em; font-size: 0.74rem; font-weight: 700; padding: 0.32em 0.7em; border-radius: 100px; white-space: nowrap; }
+.adm-badge::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.st-blue { color: #3f6fb0; background: #e6eefa; }
+.st-amber { color: #b58324; background: #faf0d6; }
+.st-brown { color: #8a5a1e; background: #f6e6cf; }
+.st-green { color: #5d7a3a; background: #e8efd8; }
+.st-grey { color: #6a5a4d; background: #eae1d0; }
+.st-red { color: #a23b28; background: #f7ddd5; }
+
+/* onglets de filtre */
+.adm-tabs { display: flex; gap: 6px; padding: 14px 20px 0; flex-wrap: wrap; }
+.adm-tab { border: 1.5px solid var(--line); background: var(--cream); border-radius: 100px; padding: 0.35em 0.9em; font-weight: 700; font-size: 0.82rem; color: var(--ink-soft); cursor: pointer; }
+.adm-tab.on { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+/* boutons admin */
+.adm-btn { display: inline-flex; align-items: center; gap: 0.5em; font-weight: 700; font-size: 0.86rem; padding: 0.6em 1em; border-radius: 8px; border: 1.5px solid transparent; cursor: pointer; transition: 0.15s; }
+.adm-btn-solid { background: var(--brick); color: var(--cream); }
+.adm-btn-solid:hover { background: var(--brick-d); }
+.adm-btn-out { border-color: var(--line); background: var(--panel); color: var(--ink); }
+.adm-btn-out:hover { border-color: var(--ink); }
+.adm-btn-green { background: var(--sage); color: var(--cream); }
+.adm-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* graphe barres simple */
+.adm-bars { display: flex; align-items: flex-end; gap: 10px; height: 160px; }
+.adm-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+.adm-bar { width: 100%; background: var(--brick); border-radius: 5px 5px 0 0; min-height: 4px; transition: 0.3s; }
+.adm-bar-wrap .d { font-size: 0.68rem; color: var(--ink-soft); font-weight: 700; }
+.adm-bar-wrap .v { font-size: 0.66rem; color: var(--ink-soft); }
+
+/* barres de répartition */
+.adm-dist { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+.adm-dist-row .lbl { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; }
+.adm-dist-row .track { height: 10px; background: var(--cream-2); border-radius: 100px; overflow: hidden; }
+.adm-dist-row .fill { height: 100%; border-radius: 100px; }
+
+.adm-empty { padding: 40px; text-align: center; color: var(--ink-soft); font-family: 'Caveat', cursive; font-size: 1.4rem; }

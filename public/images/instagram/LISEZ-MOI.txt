@@ -1,0 +1,11 @@
+Déposez ici les images des publications Instagram (réalisations).
+
+Puis, dans  src/data/instagram.js , ajoutez (ou complétez) une entrée
+avec le nom du fichier dans le champ "image".
+
+Exemple :
+  - fichier déposé   : public/images/instagram/post-sweat.jpg
+  - dans instagram.js: { image: 'post-sweat.jpg', caption: 'Sweats asso', featured: true }
+
+Cette version n'utilise PAS l'API Instagram : on gère les posts à la main.
+La connexion automatique (API Graph ou widget tiers) viendra plus tard.
