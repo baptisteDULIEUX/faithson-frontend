@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const faqs = [
-  { q: 'Quelle quantité minimum pour commander ?', a: "Aucune ! On imprime dès 1 pièce. Certaines techniques comme la sérigraphie deviennent juste plus intéressantes en prix à partir de 20-30 pièces." },
+  { q: 'Quelle quantité minimum pour commander ?', a: "Aucune ! On imprime dès 1 pièce. Le flocage et l'impression DTF s'adaptent aussi bien à la pièce unique qu'aux grandes séries." },
   { q: 'Puis-je fournir mon propre fichier ?', a: "Oui, idéalement en vectoriel (.ai, .svg) ou en .png haute résolution. Si vous n'avez que du basse def, on regarde ensemble ce qu'on peut faire." },
   { q: 'Quels sont les délais ?', a: "Comptez en général 5 à 10 jours ouvrés après validation du bon à tirer, selon la technique et la quantité. On vous donne un délai précis dans le devis." },
   { q: 'Livrez-vous partout ?', a: "Retrait possible à l'atelier, ou envoi partout en France (et à l'étranger sur demande). Les frais dépendent du poids de la commande." }

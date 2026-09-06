@@ -25,11 +25,10 @@ export const instagramHandle = '@Faithson_Custom'
 export const instagramUrl = 'https://instagram.com/faithson_custom'
 
 export const instagramPosts = [
-  { image: null, caption: 'Post à la une', link: instagramUrl, featured: true },
-  { image: null, caption: 'Sérigraphie 2 couleurs', link: instagramUrl },
-  { image: null, caption: 'Broderie logo', link: instagramUrl },
-  { image: null, caption: 'Série association', link: instagramUrl },
-  { image: null, caption: 'Flocage numéros', link: instagramUrl },
-  { image: null, caption: 'Totebags event', link: instagramUrl },
-  { image: null, caption: 'Casquettes brodées', link: instagramUrl }
+  { image: 'IMG_1.jpg', caption: 'Post à la une', link: instagramUrl, featured: true },
+  { image: 'IMG_2.jpg', caption: 'Sérigraphie 2 couleurs', link: instagramUrl },
+  { image: 'IMG_3.jpg', caption: 'Broderie logo', link: instagramUrl },
+  { image: 'IMG_4.jpg', caption: 'Série association', link: instagramUrl },
+  { image: 'IMG_5.jpg', caption: 'Flocage numéros', link: instagramUrl },
+  { image: 'IMG_6.jpg', caption: 'Totebags event', link: instagramUrl },
 ]

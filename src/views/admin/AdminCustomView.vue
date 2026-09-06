@@ -172,14 +172,7 @@ function fmtDate(d) {
           </template>
         </div>
 
-        <div class="callout dr-note">
-          <span class="tag">Note technique</span>
-          <div>
-            En production, la validation enverra automatiquement au client un email
-            avec un <b>lien de paiement</b> (Stripe). Le paiement fera passer la demande
-            en production. Ici, tout est simulé côté frontend.
-          </div>
-        </div>
+
       </div>
     </aside>
   </div>

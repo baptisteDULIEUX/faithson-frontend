@@ -41,10 +41,7 @@ async function submit() {
         </button>
       </form>
 
-      <div class="demo-note">
-        <b>Démo :</b> mot de passe <code>faithson2026</code>.
-        <span>Cette porte est côté client (démonstration). La vraie sécurité sera assurée par le backend Node.</span>
-      </div>
+
     </div>
   </div>
 </template>
@@ -64,7 +61,6 @@ input { width: 100%; padding: 0.8em 1em; border: 1.5px solid var(--line); border
 input:focus { outline: none; border-color: var(--brick); }
 .err { color: var(--brick); font-size: 0.85rem; font-weight: 700; margin: 10px 0 0; }
 .full { width: 100%; justify-content: center; margin-top: 16px; }
-.demo-note { margin-top: 22px; font-size: 0.8rem; color: var(--ink-soft); background: var(--cream-2); border: 1.5px dashed var(--line); border-radius: 8px; padding: 12px 14px; }
-.demo-note span { display: block; margin-top: 4px; }
+
 code { background: var(--cream); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; font-weight: 700; color: var(--ink); }
 </style>

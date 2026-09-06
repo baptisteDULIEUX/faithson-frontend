@@ -51,8 +51,8 @@ async function submitQuote() {
               <div>
                 <label>Technique</label>
                 <select v-model="quote.technique">
-                  <option>À conseiller</option><option>Sérigraphie</option><option>Broderie</option>
-                  <option>Flocage</option><option>DTF</option>
+                  <option>À conseiller</option><option>Flocage</option>
+                  <option>Impression DTF</option>
                 </select>
               </div>
             </div>
@@ -85,11 +85,6 @@ async function submitQuote() {
           </div>
           <div class="frow"><label>Message</label><textarea rows="3"></textarea></div>
           <button class="btn btn-out full">Envoyer</button>
-          <div class="callout">
-            <span class="tag">Note technique</span>
-            <div>L'envoi réel des formulaires passera par le backend Node (ou Formspree / EmailJS).
-              Ici la demande de devis est simulée via <code>services/api.js</code>.</div>
-          </div>
         </div>
       </div>
     </div>

@@ -42,7 +42,7 @@ const techniqueSplit = computed(() => {
   const map = {}
   valid.value.forEach((o) => { map[o.technique] = (map[o.technique] || 0) + o.amount })
   const total = Object.values(map).reduce((a, b) => a + b, 0) || 1
-  const colors = { sérigraphie: '#b5482e', flocage: '#7c8b5a', broderie: '#e0a93b', DTF: '#3a2e27' }
+  const colors = { flocage: '#7c8b5a', 'impression DTF': '#3a2e27', DTF: '#3a2e27' }
   return Object.entries(map)
     .map(([tech, val]) => ({ tech, val, pct: Math.round((val / total) * 100), color: colors[tech] || '#7c8b5a' }))
     .sort((a, b) => b.val - a.val)

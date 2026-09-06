@@ -71,7 +71,7 @@ function logoStyle(zone) {
 const form = reactive({
   client: '', email: '',
   garment: 'T-shirt coton bio', garmentColor: 'Encre',
-  technique: 'sérigraphie', qty: 10, note: ''
+  technique: 'flocage', qty: 10, note: ''
 })
 const sending = ref(false)
 const sent = ref(null)
@@ -262,7 +262,7 @@ async function submitRequest() {
             <div class="frow">
               <label>Technique</label>
               <select v-model="form.technique">
-                <option>sérigraphie</option><option>broderie</option><option>flocage</option><option>DTF</option>
+                <option>flocage</option><option>impression DTF</option>
               </select>
             </div>
             <div class="frow"><label>Quantité</label><input type="number" v-model="form.qty" min="1" /></div>
@@ -277,10 +277,7 @@ async function submitRequest() {
           <button class="btn btn-solid full" :disabled="!canSend || sending" @click="submitRequest">
             {{ sending ? 'Envoi…' : 'Envoyer ma demande à l\'atelier' }}
           </button>
-          <div class="callout">
-            <span class="tag">Note technique</span>
-            <div>L'aperçu est indicatif. Le rendu final et le fichier prêt-presse (HD) sont recalés par l'atelier. La demande arrive dans l'espace admin (Personnalisations) où un artisan la valide et propose un prix.</div>
-          </div>
+
         </div>
       </div>
     </div>

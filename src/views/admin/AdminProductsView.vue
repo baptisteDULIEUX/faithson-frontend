@@ -19,7 +19,7 @@ const cats = [
 ]
 
 const form = reactive({
-  name: '', technique: 'sérigraphie', category: 'hauts',
+  name: '', technique: 'flocage', category: 'hauts',
   price: 12, quoteOnly: false, badge: '', image: '',
   shape: 'tshirt', color: '#3a2e27'
 })
@@ -31,7 +31,7 @@ onMounted(async () => {
 
 function resetForm() {
   Object.assign(form, {
-    name: '', technique: 'sérigraphie', category: 'hauts',
+    name: '', technique: 'flocage', category: 'hauts',
     price: 12, quoteOnly: false, badge: '', image: '',
     shape: 'tshirt', color: '#3a2e27'
   })
@@ -106,16 +106,6 @@ function catLabel(key) {
       <p>Ajoutez, modifiez ou supprimez les produits de la boutique.</p>
     </div>
 
-    <!-- avertissement démo -->
-    <div class="demo-warn">
-      <span class="tag">Démo</span>
-      <div>
-        Le frontend n'est <b>pas encore connecté à l'API</b> : les ajouts, modifications et
-        suppressions fonctionnent à l'écran mais <b>ne sont pas enregistrés</b>. Ils disparaissent
-        au rechargement de la page. La persistance viendra avec le backend Node.
-      </div>
-    </div>
-
     <div class="adm-card">
       <div class="adm-card-head">
         <h2>{{ products.length }} produits</h2>
@@ -172,8 +162,8 @@ function catLabel(key) {
           </div>
           <div class="frow"><label>Technique</label>
             <select v-model="form.technique">
-              <option>sérigraphie</option><option>broderie</option><option>flocage</option>
-              <option>impression DTF</option><option>sur mesure</option>
+              <option>flocage</option>
+              <option>impression DTF</option>
             </select>
           </div>
         </div>
@@ -219,8 +209,7 @@ function catLabel(key) {
 </template>
 
 <style scoped>
-.demo-warn { background: #fff7d6; border: 1.5px dashed var(--ink); border-radius: 10px; padding: 13px 16px; margin-bottom: 22px; display: flex; gap: 12px; align-items: flex-start; font-size: 0.87rem; }
-.demo-warn .tag { background: var(--ink); color: var(--mustard); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3em 0.6em; border-radius: 5px; white-space: nowrap; flex-shrink: 0; }
+
 
 .thumb-cell { width: 64px; }
 .thumb { width: 48px; height: 48px; border-radius: 8px; background: var(--cream-2); border: 1.5px solid var(--line); overflow: hidden; display: flex; align-items: center; justify-content: center; }

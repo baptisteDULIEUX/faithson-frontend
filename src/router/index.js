@@ -6,6 +6,7 @@ const routes = [
   /* ---------- Site public ---------- */
   { path: '/', name: 'home', component: HomeView },
   { path: '/boutique', name: 'boutique', component: () => import('@/views/BoutiqueView.vue') },
+  { path: '/boutique/:id', name: 'product', component: () => import('@/views/ProductView.vue') },
   { path: '/personnalisation', name: 'personnalisation', component: () => import('@/views/PersonnalisationView.vue') },
   { path: '/panier', name: 'checkout', component: () => import('@/views/CheckoutView.vue') },
 

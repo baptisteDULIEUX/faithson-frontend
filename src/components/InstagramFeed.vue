@@ -48,15 +48,7 @@ function srcFor(post) {
         </a>
       </div>
 
-      <div class="callout">
-        <span class="tag">Note technique</span>
-        <div>
-          Version <b>sans connexion API</b> : les publications se gèrent à la main dans
-          <code>src/data/instagram.js</code> (il suffit de déposer les images dans
-          <code>public/images/instagram/</code>). La connexion automatique (API Instagram Graph
-          ou widget tiers) pourra être branchée plus tard sans changer l'affichage.
-        </div>
-      </div>
+
     </div>
   </section>
 </template>

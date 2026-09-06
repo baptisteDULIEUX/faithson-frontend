@@ -1,9 +1,7 @@
 <script setup>
 const techniques = [
-  { ico: '⬒', title: 'Sérigraphie', text: 'Le grand classique pour les aplats de couleur et les séries. Rendu net, résistant aux lavages.', note: 'idéale dès 20-30 pièces' },
-  { ico: '✦', title: 'Broderie', text: 'Le fil pour un rendu premium et durable : logos d\'entreprise, polos, casquettes.', note: 'le plus qualitatif' },
-  { ico: '✎', title: 'Flocage', text: 'Le velours ou le vinyle découpé, parfait pour les textes, numéros et petites quantités.', note: 'bien pour l\'unité' },
-  { ico: '✧', title: 'Impression DTF', text: 'Le numérique pour les visuels très détaillés et en couleurs, sans limite de nuances.', note: 'photos & dégradés' }
+  { ico: '✎', title: 'Flocage', text: 'Le vinyle découpé et thermocollé, parfait pour les textes, logos et petites quantités. Rendu net, toucher velours ou flex selon le matériau.', note: 'idéal dès 1 pièce' },
+  { ico: '✧', title: 'Impression DTF', text: 'Le numérique pour les visuels très détaillés et en couleurs, sans limite de nuances. Idéal pour les photos, dégradés et logos complexes.', note: 'photos & dégradés' }
 ]
 </script>
 
@@ -12,7 +10,7 @@ const techniques = [
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow">Le savoir-faire</p>
-        <h2>Quatre techniques, une exigence</h2>
+        <h2>Deux techniques, une exigence</h2>
         <p>On choisit avec vous la méthode qui rend le mieux selon votre visuel, votre textile et votre quantité.</p>
       </div>
       <div class="know">

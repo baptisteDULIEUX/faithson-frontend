@@ -1,7 +1,7 @@
 <script setup>
 const items = [
-  'Sérigraphie', 'Broderie', 'Flocage', 'Impression numérique DTF',
-  'Textile professionnel', 'Petites séries', 'Fabrication locale'
+  'Flocage', 'Impression DTF', 'Textile professionnel',
+  'Petites séries', 'Fabrication locale', 'Personnalisation sur mesure'
 ]
 </script>
 
