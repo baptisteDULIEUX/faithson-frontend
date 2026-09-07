@@ -4,6 +4,9 @@ import api from '@/services/api'
 import GarmentIcon from '@/components/GarmentIcon.vue'
 import ImageUploader from "@/components/ImageUploader.vue";
 
+
+const apiBase = import.meta.env.VITE_API_URL.replace('/api', '')
+
 const products = ref([])
 const loading = ref(true)
 
@@ -29,6 +32,12 @@ onMounted(async () => {
   products.value = await api.getProducts()
   loading.value = false
 })
+
+function getImageUrl(image) {
+  if (!image) return null
+  if (image.startsWith('/uploads/')) return apiBase + image
+  return `/images/boutique/${image}`
+}
 
 function resetForm() {
   Object.assign(form, {
