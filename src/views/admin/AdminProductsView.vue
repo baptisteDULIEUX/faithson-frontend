@@ -131,9 +131,7 @@ function catLabel(key) {
               <div class="thumb">
                 <img
                     v-if="p.image"
-                    :src="p.image.startsWith('/uploads/')
-                    ? (import.meta.env.VITE_API_URL.replace('/api', '') + p.image)
-                    : `/images/boutique/${p.image}`"
+                    :src="getImageUrl(p.image)"
                     :alt="p.name"
                 />
                 <GarmentIcon v-else :shape="p.placeholder?.shape" :color="p.placeholder?.color" />
@@ -165,7 +163,7 @@ function catLabel(key) {
         <!-- aperçu -->
         <div class="preview">
           <div class="pv-thumb">
-            <img v-if="form.image" :src="`/images/boutique/${form.image}`" :alt="form.name" />
+            <img v-if="form.image" :src="getImageUrl(form.image)" :alt="form.name" />
             <GarmentIcon v-else :shape="form.shape" :color="form.color" />
           </div>
         </div>
