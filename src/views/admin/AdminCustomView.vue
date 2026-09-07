@@ -1,7 +1,5 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import api from '@/services/api'
-import { customStatusLabels } from '@/data/customRequests'
 
 const customStatusLabels = {
   en_attente: 'En attente',
