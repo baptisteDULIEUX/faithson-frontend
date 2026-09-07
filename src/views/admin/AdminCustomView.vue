@@ -152,12 +152,11 @@ function fmtDate(d) {
             class="logo-img"
         />
 
-        :href="apiBase.replace('/api', '') + selected.logo_path"
-        target="_blank"
-        class="logo-link"
+        <a :href="apiBase.replace('/api', '') + selected.logo_path"
+           target="_blank"
+           class="logo-link"
         >Télécharger le fichier ↗</a>
       </div>
-
       <div class="dr-body">
         <div class="spec"><span>Vêtement</span><b>{{ selected.garment }} · {{ selected.garmentColor }}</b></div>
         <div class="spec"><span>Technique</span><b>{{ selected.technique }}</b></div>
