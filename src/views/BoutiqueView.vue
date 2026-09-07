@@ -29,9 +29,16 @@ const sortOptions = [
   { key: 'name-asc', label: 'Nom A → Z' }
 ]
 
+const fetchError = ref(null)
+
 onMounted(async () => {
-  allProducts.value = await api.getProducts()
-  loading.value = false
+  try {
+    allProducts.value = await api.getProducts()
+  } catch(e) {
+    fetchError.value = e.message
+  } finally {
+    loading.value = false
+  }
 })
 
 // prix max dynamique (hors produits sur devis)
@@ -98,6 +105,10 @@ function addToCart(p) {
 <template>
   <section class="section">
     <div class="wrap">
+
+      <div v-if="fetchError" style="background:red;color:white;padding:16px;border-radius:8px;margin-bottom:16px">
+        Erreur : {{ fetchError }}
+      </div>
 
       <!-- En-tête boutique -->
       <div class="shop-top">
