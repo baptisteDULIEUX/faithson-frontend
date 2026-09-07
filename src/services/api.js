@@ -51,51 +51,18 @@ const clone = (v) => JSON.parse(JSON.stringify(v))
 export const api = {
   /* ---------- Vitrine / boutique ---------- */
   async getProducts() {
-    // return request('/products')
-    await fakeDelay()
-    return clone(state.products)
+    return request('/products')
   },
 
   /* ---------- Gestion boutique (admin) ---------- */
   async createProduct(product) {
-    // return request('/admin/products', { method: 'POST', body: JSON.stringify(product) })
-    await fakeDelay(250)
-    const base = (product.id || product.name || 'produit')
-      .toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-    let id = base || 'produit'
-    let n = 2
-    while (state.products.some((p) => p.id === id)) id = `${base}-${n++}`
-    const created = {
-      id,
-      name: product.name || 'Nouveau produit',
-      technique: product.technique || 'sérigraphie',
-      category: product.category || 'hauts',
-      price: product.price ?? null,
-      priceLabel: product.price == null ? 'sur' : 'à partir de',
-      badge: product.badge || null,
-      image: product.image || null,
-      placeholder: product.placeholder || { color: '#3a2e27', shape: 'tshirt' }
-    }
-    state.products.push(created)
-    return clone(created)
+    return request('/admin/products', { method: 'POST', body: JSON.stringify(product) })
   },
   async updateProduct(id, patch) {
-    // return request(`/admin/products/${id}`, { method: 'PATCH', body: JSON.stringify(patch) })
-    await fakeDelay(250)
-    const p = state.products.find((x) => x.id === id)
-    if (p) {
-      Object.assign(p, patch)
-      p.priceLabel = p.price == null ? 'sur' : 'à partir de'
-    }
-    return clone(p)
+    return request(`/admin/products/${id}`, { method: 'PATCH', body: JSON.stringify(patch) })
   },
   async deleteProduct(id) {
-    // return request(`/admin/products/${id}`, { method: 'DELETE' })
-    await fakeDelay(200)
-    const i = state.products.findIndex((x) => x.id === id)
-    if (i !== -1) state.products.splice(i, 1)
-    return { ok: true }
+    return request(`/admin/products/${id}`, { method: 'DELETE' })
   },
 
   async getInstagramPosts() {
