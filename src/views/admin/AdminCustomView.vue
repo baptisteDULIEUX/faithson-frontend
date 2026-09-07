@@ -3,6 +3,13 @@ import { ref, computed, onMounted } from 'vue'
 import api from '@/services/api'
 import { customStatusLabels } from '@/data/customRequests'
 
+const customStatusLabels = {
+  en_attente: 'En attente',
+  validee: 'Validée — à payer',
+  payee: 'Payée',
+  refusee: 'Refusée'
+}
+
 const requests = ref([])
 const loading = ref(true)
 const filter = ref('all')
