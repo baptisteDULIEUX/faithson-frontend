@@ -14,6 +14,24 @@ const filter = ref('all')
 const selected = ref(null)
 const priceInput = ref('')
 
+const tabs = [
+  { key: 'all', label: 'Toutes' },
+  { key: 'en_attente', label: 'En attente' },
+  { key: 'validee', label: 'À payer' },
+  { key: 'payee', label: 'Payées' },
+  { key: 'refusee', label: 'Refusées' }
+]
+
+const filtered = computed(() =>
+    filter.value === 'all'
+        ? requests.value
+        : requests.value.filter((r) => r.status === filter.value)
+)
+
+const pendingCount = computed(() =>
+    requests.value.filter((r) => r.status === 'en_attente').length
+)
+
 const apiBase = import.meta.env.VITE_API_URL
 
 onMounted(async () => {
