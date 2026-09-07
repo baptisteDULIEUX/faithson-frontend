@@ -8,7 +8,8 @@ const loading = ref(true)
 const filter = ref('all')
 
 onMounted(async () => {
-  orders.value = await api.getOrders()
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/admin/orders`)
+  orders.value = await res.json()
   loading.value = false
 })
 
