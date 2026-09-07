@@ -9,6 +9,8 @@ import { useCartStore } from '@/stores/cart'
 const router = useRouter()
 const cart = useCartStore()
 
+const apiBase = import.meta.env.VITE_API_URL.replace('/api', '')
+
 const allProducts = ref([])
 const loading = ref(true)
 
@@ -65,6 +67,12 @@ const activeFilterCount = computed(() => {
   if (priceMax.value) n++
   return n
 })
+
+function getImageUrl(image) {
+  if (!image) return null
+  if (image.startsWith('/uploads/')) return apiBase + image
+  return `/images/boutique/${image}`
+}
 
 function resetFilters() {
   activeCat.value = 'all'
@@ -197,7 +205,7 @@ function addToCart(p) {
               <span v-if="p.badge" class="ribbon">{{ p.badge }}</span>
               <img
                   v-if="p.image"
-                  :src="`/images/boutique/${p.image}`"
+                  :src="getImageUrl(p.image)"
                   :alt="p.name"
                   class="photo"
               />
