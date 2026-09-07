@@ -123,12 +123,11 @@ function fichierUrl(path) {
           <td>{{ q.produit }} <span class="adm-tech">· {{ q.technique }}</span></td>
           <td>{{ fmtDate(q.created_at) }}</td>
           <td>
-
-            v-if="q.fichier"
-            :href="fichierUrl(q.fichier)"
-            target="_blank"
-            @click.stop
-            class="file-link"
+            <a v-if="q.fichier"
+               :href="fichierUrl(q.fichier)"
+               target="_blank"
+               @click.stop
+               class="file-link"
             >Voir le fichier ↗</a>
             <span v-else class="no-file">—</span>
           </td>
