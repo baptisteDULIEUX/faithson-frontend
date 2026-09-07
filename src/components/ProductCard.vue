@@ -8,17 +8,18 @@ const props = defineProps({
   product: { type: Object, required: true }
 })
 
+const apiBase = import.meta.env.VITE_API_URL.replace('/api', '')
+
 const cart = useCartStore()
 const router = useRouter()
 const imgError = ref(false)
 
 const imgSrc = computed(() => {
   if (!props.product.image) return null
-  if (props.product.image.startsWith('/uploads/')) {
-    return import.meta.env.VITE_API_URL.replace('/api', '') + props.product.image
-  }
+  if (props.product.image.startsWith('/uploads/')) return apiBase + props.product.image
   return `/images/boutique/${props.product.image}`
 })
+
 const showImage = computed(() => imgSrc.value && !imgError.value)
 const isQuoteOnly = computed(() => props.product.price === null)
 

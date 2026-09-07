@@ -9,6 +9,8 @@ const route = useRoute()
 const router = useRouter()
 const cart = useCartStore()
 
+const apiBase = import.meta.env.VITE_API_URL.replace('/api', '')
+
 const allProducts = ref([])
 const loading = ref(true)
 const qty = ref(1)
@@ -30,11 +32,10 @@ const product = computed(() =>
 
 const imgSrc = computed(() => {
   if (!product.value?.image) return null
-  if (product.value.image.startsWith('/uploads/')) {
-    return import.meta.env.VITE_API_URL.replace('/api', '') + product.value.image
-  }
+  if (product.value.image.startsWith('/uploads/')) return apiBase + product.value.image
   return `/images/boutique/${product.value.image}`
 })
+
 const showImage = computed(() => imgSrc.value && !imgError.value)
 
 const isQuoteOnly = computed(() => product.value?.price === null)
