@@ -2,6 +2,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import api from '@/services/api'
 import GarmentIcon from '@/components/GarmentIcon.vue'
+import ImageUploader from "@/components/ImageUploader.vue";
 
 const products = ref([])
 const loading = ref(true)
@@ -180,8 +181,16 @@ function catLabel(key) {
         <div class="frow"><label>Badge (facultatif)</label><input type="text" v-model="form.badge" placeholder="ex : Best-seller, Éco…" /></div>
 
         <div class="frow">
-          <label>Image (fichier dans <code>public/images/boutique/</code>)</label>
-          <input type="text" v-model="form.image" placeholder="ex : tshirt-bio.jpg (vide = placeholder)" />
+          <label>Image du produit</label>
+          <ImageUploader
+              v-if="editingId"
+              :productId="editingId"
+              :currentImage="form.image"
+              @uploaded="(url) => { form.image = url }"
+          />
+          <p v-else class="frow-hint">
+            Sauvegardez d'abord le produit, puis revenez modifier son image.
+          </p>
         </div>
 
         <div class="frow">
@@ -248,5 +257,6 @@ function catLabel(key) {
 .sw.on { box-shadow: 0 0 0 2px var(--ink); }
 .dr-actions { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
 .full { width: 100%; justify-content: center; }
+.frow-hint { font-size: 0.82rem; color: var(--ink-soft); font-style: italic; }
 code { background: var(--cream-2); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; font-size: 0.85em; }
 </style>
