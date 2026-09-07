@@ -34,9 +34,9 @@ function triggerUpload() {
   fileInput.value && fileInput.value.click()
 }
 function onFile(e) {
-  const f = e.target.files && e.target.files[0]
+  const f = e.dataTransfer?.files[0] || e.target?.files[0]
   if (!f) return
-  logo.value = { src: URL.createObjectURL(f), name: f.name }
+  logo.value = { src: URL.createObjectURL(f), name: f.name, file: f }
 }
 function removeLogo() {
   logo.value = null
@@ -82,18 +82,24 @@ async function submitRequest() {
   if (!canSend.value) return
   sending.value = true
   try {
-    const res = await api.createCustomRequest({
-      client: form.client,
-      email: form.email,
-      garment: form.garment,
-      garmentColor: form.garmentColor,
-      technique: form.technique,
-      placement: placementLabels.value.length ? placementLabels.value.join(', ') : 'À préciser',
-      qty: Number(form.qty),
-      note: form.note,
-      logoName: logo.value ? logo.value.name : null
+    const formData = new FormData()
+    formData.append('client', form.client)
+    formData.append('email', form.email)
+    formData.append('garment', form.garment)
+    formData.append('garmentColor', form.garmentColor)
+    formData.append('technique', form.technique)
+    formData.append('placement', placementLabels.value.length ? placementLabels.value.join(', ') : 'À préciser')
+    formData.append('qty', String(form.qty))
+    formData.append('note', form.note)
+    if (logo.value?.file) formData.append('logo', logo.value.file)
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/custom-requests`, {
+      method: 'POST',
+      body: formData
     })
-    sent.value = res
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error)
+    sent.value = data
   } finally {
     sending.value = false
   }
