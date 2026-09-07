@@ -28,9 +28,13 @@ const product = computed(() =>
   allProducts.value.find((p) => p.id === route.params.id) || null
 )
 
-const imgSrc = computed(() =>
-  product.value?.image ? `/images/boutique/${product.value.image}` : null
-)
+const imgSrc = computed(() => {
+  if (!product.value?.image) return null
+  if (product.value.image.startsWith('/uploads/')) {
+    return import.meta.env.VITE_API_URL.replace('/api', '') + product.value.image
+  }
+  return `/images/boutique/${product.value.image}`
+})
 const showImage = computed(() => imgSrc.value && !imgError.value)
 
 const isQuoteOnly = computed(() => product.value?.price === null)

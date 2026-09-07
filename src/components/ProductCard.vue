@@ -12,9 +12,15 @@ const cart = useCartStore()
 const router = useRouter()
 const imgError = ref(false)
 
-const imgSrc = computed(() =>
-  props.product.image ? `/images/boutique/${props.product.image}` : null
-)
+const imgSrc = computed(() => {
+  if (!props.product.image) return null
+  // image uploadée via le backend (chemin absolu)
+  if (props.product.image.startsWith('/uploads/')) {
+    return import.meta.env.VITE_API_URL.replace('/api', '') + props.product.image
+  }
+  // ancienne image locale dans public/
+  return `/images/boutique/${props.product.image}`
+})
 const showImage = computed(() => imgSrc.value && !imgError.value)
 const isQuoteOnly = computed(() => props.product.price === null)
 
