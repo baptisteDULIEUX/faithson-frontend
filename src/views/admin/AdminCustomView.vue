@@ -9,43 +9,56 @@ const filter = ref('all')
 const selected = ref(null)
 const priceInput = ref('')
 
+const apiBase = import.meta.env.VITE_API_URL
+
 onMounted(async () => {
-  requests.value = await api.getCustomRequests()
-  loading.value = false
+  await loadRequests()
 })
 
-const tabs = [
-  { key: 'all', label: 'Toutes' },
-  { key: 'en_attente', label: 'En attente' },
-  { key: 'validee', label: 'À payer' },
-  { key: 'payee', label: 'Payées' },
-  { key: 'refusee', label: 'Refusées' }
-]
-const filtered = computed(() =>
-  filter.value === 'all' ? requests.value : requests.value.filter((r) => r.status === filter.value)
-)
-const badgeClass = { en_attente: 'st-blue', validee: 'st-amber', payee: 'st-green', refusee: 'st-red' }
-const pendingCount = computed(() => requests.value.filter((r) => r.status === 'en_attente').length)
-
-function open(r) {
-  selected.value = r
-  priceInput.value = r.proposedPrice || ''
+async function loadRequests() {
+  loading.value = true
+  try {
+    const res = await fetch(`${apiBase}/admin/custom-requests`)
+    const data = await res.json()
+    requests.value = Array.isArray(data) ? data : []
+  } finally {
+    loading.value = false
+  }
 }
-function close() { selected.value = null }
 
 async function validate(r) {
   const price = Number(priceInput.value)
   if (!price) return
-  await api.updateCustomRequest(r.id, { status: 'validee', proposedPrice: price })
-  r.status = 'validee'; r.proposedPrice = price
+  const res = await fetch(`${apiBase}/admin/custom-requests/${r.id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'validee', proposed_price: price })
+  })
+  const updated = await res.json()
+  Object.assign(r, updated)
+  selected.value = { ...updated }
 }
+
 async function refuse(r) {
-  await api.updateCustomRequest(r.id, { status: 'refusee' })
-  r.status = 'refusee'
+  const res = await fetch(`${apiBase}/admin/custom-requests/${r.id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'refusee' })
+  })
+  const updated = await res.json()
+  Object.assign(r, updated)
+  selected.value = { ...updated }
 }
+
 async function markPaid(r) {
-  await api.updateCustomRequest(r.id, { status: 'payee' })
-  r.status = 'payee'
+  const res = await fetch(`${apiBase}/admin/custom-requests/${r.id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'payee' })
+  })
+  const updated = await res.json()
+  Object.assign(r, updated)
+  selected.value = { ...updated }
 }
 
 // position du marqueur d'emplacement sur l'aperçu (1er emplacement reconnu)
@@ -128,6 +141,21 @@ function fmtDate(d) {
           </div>
         </div>
         <p class="placement-cap">Emplacement : <b>{{ selected.placement }}</b></p>
+      </div>
+
+      <!-- Aperçu du logo si disponible -->
+      <div v-if="selected.logo_path" class="logo-preview">
+        <p class="spec-label">Logo fourni par le client</p>
+        <img
+            :src="apiBase.replace('/api', '') + selected.logo_path"
+            alt="Logo client"
+            class="logo-img"
+        />
+
+        :href="apiBase.replace('/api', '') + selected.logo_path"
+        target="_blank"
+        class="logo-link"
+        >Télécharger le fichier ↗</a>
       </div>
 
       <div class="dr-body">
@@ -214,5 +242,9 @@ function fmtDate(d) {
 .status-info.amber { background: #faf0d6; color: #8a6414; }
 .status-info.green { background: #e8efd8; color: #4d6a2c; }
 .status-info.red { background: #f7ddd5; color: #a23b28; }
+.logo-preview { margin-top: 16px; }
+.logo-img { width: 100%; border-radius: 8px; border: 1.5px solid var(--line); margin-top: 8px; object-fit: contain; max-height: 200px; }
+.logo-link { display: inline-block; margin-top: 8px; color: var(--brick); font-weight: 700; font-size: 0.88rem; }
+.spec-label { font-size: 0.78rem; font-weight: 700; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; }
 .dr-note { margin-top: 18px; }
 </style>
