@@ -2,17 +2,35 @@
 import { reactive, ref } from 'vue'
 import api from '@/services/api'
 
-const quote = reactive({ produit: 'T-shirt', quantite: '', technique: 'À conseiller', message: '' })
+const quote = reactive({ produit: 'T-shirt', quantite: '', technique: 'À conseiller', message: '', email: '' })
+const fichier = ref(null)
 const sending = ref(false)
-const sent = ref(null) // null | { quoteId }
+const sent = ref(null)
+
+function onFichier(e) {
+  fichier.value = e.target.files[0] || null
+}
 
 async function submitQuote() {
   sending.value = true
   try {
-    const res = await api.createQuote({ ...quote })
-    sent.value = res
+    const formData = new FormData()
+    formData.append('produit', quote.produit)
+    formData.append('quantite', quote.quantite)
+    formData.append('technique', quote.technique)
+    formData.append('message', quote.message)
+    formData.append('email', quote.email)
+    if (fichier.value) formData.append('fichier', fichier.value)
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/quotes`, {
+      method: 'POST',
+      body: formData
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error)
+    sent.value = data
   } catch (e) {
-    alert("Une erreur est survenue. Réessayez plus tard.")
+    alert('Une erreur est survenue. Réessayez plus tard.')
   } finally {
     sending.value = false
   }
@@ -56,10 +74,10 @@ async function submitQuote() {
                 </select>
               </div>
             </div>
-            <div class="frow">
-              <label>Votre visuel</label>
-              <label class="drop">déposez votre fichier ici
-                <input type="file" hidden />
+            <div class="frow"><label>Votre visuel</label>
+              <label class="drop">
+                {{ fichier ? fichier.name : 'déposez votre fichier ici' }}
+                <input type="file" hidden accept="image/*,.pdf,.ai,.svg" @change="onFichier" />
               </label>
             </div>
             <div class="frow">
