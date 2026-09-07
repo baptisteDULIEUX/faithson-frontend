@@ -1,6 +1,7 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import { products } from '@/data/products'
+import api from '@/services/api'
 import HeroSection from '@/components/HeroSection.vue'
 import MarqueeBar from '@/components/MarqueeBar.vue'
 import ProcessSection from '@/components/ProcessSection.vue'
@@ -12,8 +13,12 @@ import FaqSection from '@/components/FaqSection.vue'
 import QuoteContactSection from '@/components/QuoteContactSection.vue'
 import NewsletterSection from '@/components/NewsletterSection.vue'
 
-// aperçu boutique : 4 premiers produits
-const featured = products.slice(0, 4)
+const featured = ref([])
+
+onMounted(async () => {
+  const all = await api.getProducts()
+  featured.value = all.slice(0, 4)
+})
 </script>
 
 <template>
@@ -21,7 +26,6 @@ const featured = products.slice(0, 4)
   <MarqueeBar />
   <ProcessSection />
 
-  <!-- Aperçu boutique -->
   <section class="section alt">
     <div class="wrap">
       <div class="shop-head">
