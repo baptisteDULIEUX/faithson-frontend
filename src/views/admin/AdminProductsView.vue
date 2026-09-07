@@ -120,7 +120,13 @@ function catLabel(key) {
           <tr v-for="p in products" :key="p.id">
             <td class="thumb-cell">
               <div class="thumb">
-                <img v-if="p.image" :src="`/images/boutique/${p.image}`" :alt="p.name" />
+                <img
+                    v-if="p.image"
+                    :src="p.image.startsWith('/uploads/')
+                    ? (import.meta.env.VITE_API_URL.replace('/api', '') + p.image)
+                    : `/images/boutique/${p.image}`"
+                    :alt="p.name"
+                />
                 <GarmentIcon v-else :shape="p.placeholder?.shape" :color="p.placeholder?.color" />
               </div>
             </td>
