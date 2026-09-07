@@ -9,7 +9,10 @@ const apiBase = import.meta.env.VITE_API_URL
 onMounted(async () => {
   try {
     const res = await fetch(`${apiBase}/admin/orders`)
-    orders.value = await res.json()
+    const data = await res.json()
+    orders.value = Array.isArray(data) ? data : []
+  } catch (e) {
+    orders.value = []
   } finally {
     loading.value = false
   }
