@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import HomeView from '@/views/HomeView.vue'
 
@@ -9,6 +9,11 @@ const routes = [
   { path: '/boutique/:id', name: 'product', component: () => import('@/views/ProductView.vue') },
   { path: '/personnalisation', name: 'personnalisation', component: () => import('@/views/PersonnalisationView.vue') },
   { path: '/panier', name: 'checkout', component: () => import('@/views/CheckoutView.vue') },
+  {
+    path: '/success',
+    name: 'success',
+    component: () => import('@/views/SuccessView.vue')
+  },
 
   /* ---------- Connexion admin ---------- */
   { path: '/admin/login', name: 'admin-login', component: () => import('@/views/admin/AdminLoginView.vue') },
@@ -32,7 +37,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to) {
     if (to.hash) return { el: to.hash, behavior: 'smooth' }

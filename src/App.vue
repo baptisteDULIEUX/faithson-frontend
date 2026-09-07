@@ -11,8 +11,8 @@ import CartDrawer from '@/components/CartDrawer.vue'
 
   <main>
     <RouterView v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" />
+      <transition name="fade">
+        <component :is="Component" :key="$route.path" />
       </transition>
     </RouterView>
   </main>

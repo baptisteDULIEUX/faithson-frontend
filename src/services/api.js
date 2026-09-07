@@ -106,37 +106,21 @@ export const api = {
 
   /* ---------- Commande / paiement client ---------- */
   async createOrder(payload) {
-    // return request('/orders', { method: 'POST', body: JSON.stringify(payload) })
-    await fakeDelay(700)
-    return { ok: true, orderId: '#' + Math.floor(1000 + Math.random() * 9000), total: payload.total }
+    return request('/orders', { method: 'POST', body: JSON.stringify(payload) })
   },
 
   /* ---------- Devis (client) ---------- */
   async createQuote(payload) {
-    // return request('/quotes', { method: 'POST', body: JSON.stringify(payload) })
-    await fakeDelay(600)
-    return { ok: true, quoteId: 'DEVIS-' + Math.floor(100 + Math.random() * 900) }
+    return request('/quotes', { method: 'POST', body: JSON.stringify(payload) })
   },
 
   async subscribeNewsletter(email) {
-    // return request('/newsletter', { method: 'POST', body: JSON.stringify({ email }) })
-    await fakeDelay(400)
-    return { ok: true, email }
+    return request('/newsletter', { method: 'POST', body: JSON.stringify({ email }) })
   },
 
   /* ---------- Personnalisation (client) ---------- */
   async createCustomRequest(payload) {
-    // return request('/custom-requests', { method: 'POST', body: JSON.stringify(payload) })
-    await fakeDelay(600)
-    const id = 'PERSO-0' + customSeq++
-    state.custom.unshift({
-      id,
-      date: new Date().toISOString().slice(0, 10),
-      status: 'en_attente',
-      proposedPrice: null,
-      ...payload
-    })
-    return { ok: true, requestId: id }
+    return request('/custom-requests', { method: 'POST', body: JSON.stringify(payload) })
   },
 
   /* ================= ESPACE ADMIN ================= */
