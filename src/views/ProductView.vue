@@ -20,6 +20,10 @@ const added = ref(false)
 
 const selectedSize = ref(null)
 
+const product = computed(() =>
+    allProducts.value.find((p) => p.id === route.params.id) || null
+)
+
 
 // sélectionne automatiquement la première taille disponible
 watch(product, (p) => {
@@ -33,10 +37,6 @@ onMounted(async () => {
   if (!p) { router.push({ name: 'boutique' }); return }
   selectedTechnique.value = p.technique
 })
-
-const product = computed(() =>
-  allProducts.value.find((p) => p.id === route.params.id) || null
-)
 
 const imgSrc = computed(() => {
   if (!product.value?.image) return null
