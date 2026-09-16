@@ -25,7 +25,8 @@ const cats = [
 const form = reactive({
   name: '', technique: 'flocage', category: 'hauts',
   price: 12, quoteOnly: false, badge: '', image: '',
-  shape: 'tshirt', color: '#3a2e27'
+  shape: 'tshirt', color: '#3a2e27',
+  sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 })
 
 onMounted(async () => {
@@ -43,7 +44,8 @@ function resetForm() {
   Object.assign(form, {
     name: '', technique: 'flocage', category: 'hauts',
     price: 12, quoteOnly: false, badge: '', image: '',
-    shape: 'tshirt', color: '#3a2e27'
+    shape: 'tshirt', color: '#3a2e27',
+    sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
   })
 }
 
@@ -63,7 +65,8 @@ function openEdit(p) {
     badge: p.badge || '',
     image: p.image || '',
     shape: p.placeholder?.shape || 'tshirt',
-    color: p.placeholder?.color || '#3a2e27'
+    color: p.placeholder?.color || '#3a2e27',
+    sizes: p.sizes || ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
   })
   drawerOpen.value = true
 }
@@ -81,7 +84,8 @@ async function save() {
     price: form.quoteOnly ? null : Number(form.price),
     badge: form.badge.trim() || null,
     image: form.image.trim() || null,
-    placeholder: { shape: form.shape, color: form.color }
+    placeholder: { shape: form.shape, color: form.color },
+    sizes: form.sizes
   }
   try {
     if (editingId.value) {
@@ -272,4 +276,8 @@ function catLabel(key) {
 .full { width: 100%; justify-content: center; }
 .frow-hint { font-size: 0.82rem; color: var(--ink-soft); font-style: italic; }
 code { background: var(--cream-2); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; font-size: 0.85em; }
+
+.size-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.size-btn { border: 1.5px solid var(--line); background: var(--panel); border-radius: 6px; padding: 0.4em 0.7em; font-family: 'Karla', sans-serif; font-weight: 700; font-size: 0.82rem; cursor: pointer; }
+.size-btn.on { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 </style>
