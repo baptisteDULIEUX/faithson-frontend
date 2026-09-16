@@ -20,6 +20,15 @@ const added = ref(false)
 
 const stock = ref([]) // [{ size, quantity }]
 
+const images = ref([])
+
+const serverBase = import.meta.env.VITE_API_URL.replace('/api', '')
+
+const mainImage = computed(() => {
+  if (images.value.length) return serverBase + images.value[0].path
+  return imgSrc.value // fallback sur l'image principale existante
+})
+
 
 const selectedSize = ref(null)
 
@@ -39,6 +48,9 @@ onMounted(async () => {
   // Charger le stock
   const stockRes = await fetch(`${import.meta.env.VITE_API_URL}/products/${route.params.id}/stock`)
   stock.value = await stockRes.json()
+
+  const imagesRes = await fetch(`${import.meta.env.VITE_API_URL}/products/${route.params.id}/images`)
+  images.value = await imagesRes.json()
   const p = product.value
   if (!p) { router.push({ name: 'boutique' }); return }
   selectedTechnique.value = p.technique
@@ -100,18 +112,32 @@ function addToCart() {
 
           <!-- IMAGE / APERÇU -->
           <div class="visual">
+            <!-- image principale -->
             <div class="visual-inner">
               <span v-if="product.badge" class="ribbon">{{ product.badge }}</span>
               <img
-                v-if="showImage"
-                :src="imgSrc"
-                :alt="product.name"
-                class="photo"
-                @error="imgError = true"
+                  v-if="mainImage && !imgError"
+                  :src="mainImage"
+                  :alt="product.name"
+                  class="photo"
+                  @error="imgError = true"
               />
               <div v-else class="ph-wrap">
                 <GarmentIcon :shape="product.placeholder?.shape" :color="product.placeholder?.color" />
               </div>
+            </div>
+
+            <!-- miniatures -->
+            <div class="thumbnails" v-if="images.length > 1">
+              <button
+                  v-for="(img, i) in images"
+                  :key="img.id"
+                  class="thumb-btn"
+                  :class="{ on: mainImage === serverBase + img.path }"
+                  @click="images.unshift(images.splice(i, 1)[0])"
+              >
+                <img :src="serverBase + img.path" :alt="`Vue ${i + 1}`" />
+              </button>
             </div>
           </div>
 
@@ -376,6 +402,11 @@ function addToCart() {
 .stock-ok { color: var(--sage); font-weight: 700; }
 .stock-low { color: var(--mustard); font-weight: 700; }
 .stock-empty { color: var(--brick); font-weight: 700; }
+
+.thumbnails { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.thumb-btn { width: 64px; height: 64px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; cursor: pointer; background: none; padding: 0; transition: 0.15s; }
+.thumb-btn.on { border-color: var(--brick); }
+.thumb-btn img { width: 100%; height: 100%; object-fit: cover; }
 
 @media (max-width: 900px) { .product-grid { grid-template-columns: 1fr; gap: 30px; } .details-grid { grid-template-columns: 1fr; } .related-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .related-grid { grid-template-columns: 1fr 1fr; } .cta-row { flex-direction: column; } }
