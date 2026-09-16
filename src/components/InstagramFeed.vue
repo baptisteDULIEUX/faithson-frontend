@@ -49,16 +49,19 @@ onMounted(async () => {
         target="_blank"
         rel="noopener"
         >
-        <img
-            v-if="post.image_path"
-            :src="serverBase + post.image_path"
-            :alt="post.caption"
-            class="ig-img"
-        />
-        <div v-else class="ig-ph">
-          <span class="ph">▣</span>
-          <span class="cap">{{ post.caption }}</span>
-        </div>
+        <template v-if="post.image_path">
+          <img
+              :src="serverBase + post.image_path"
+              :alt="post.caption"
+              class="ig-img"
+          />
+        </template>
+        <template v-else>
+          <div class="ig-ph">
+            <span class="ph">▣</span>
+            <span class="cap">{{ post.caption }}</span>
+          </div>
+        </template>
         </a>
       </div>
     </div>
