@@ -18,6 +18,9 @@ const selectedTechnique = ref(null)
 const imgError = ref(false)
 const added = ref(false)
 
+const stock = ref([]) // [{ size, quantity }]
+
+
 const selectedSize = ref(null)
 
 const product = computed(() =>
@@ -33,6 +36,9 @@ watch(product, (p) => {
 onMounted(async () => {
   allProducts.value = await api.getProducts()
   loading.value = false
+  // Charger le stock
+  const stockRes = await fetch(`${import.meta.env.VITE_API_URL}/products/${route.params.id}/stock`)
+  stock.value = await stockRes.json()
   const p = product.value
   if (!p) { router.push({ name: 'boutique' }); return }
   selectedTechnique.value = p.technique
@@ -43,6 +49,16 @@ const imgSrc = computed(() => {
   if (product.value.image.startsWith('/uploads/')) return apiBase + product.value.image
   return `/images/boutique/${product.value.image}`
 })
+
+const selectedSizeStock = computed(() => {
+  if (!selectedSize.value) return null
+  const s = stock.value.find((s) => s.size === selectedSize.value)
+  return s ? s.quantity : null
+})
+
+const isOutOfStock = computed(() =>
+    selectedSizeStock.value !== null && selectedSizeStock.value === 0
+)
 
 const showImage = computed(() => imgSrc.value && !imgError.value)
 
@@ -148,23 +164,38 @@ function addToCart() {
                     v-for="size in product.sizes"
                     :key="size"
                     class="seg-btn"
-                    :class="{ on: selectedSize === size }"
+                    :class="{
+        on: selectedSize === size,
+        oos: stock.find(s => s.size === size)?.quantity === 0
+      }"
                     @click="selectedSize = size"
                 >
                   {{ size }}
+                  <span
+                      v-if="stock.find(s => s.size === size)?.quantity === 0"
+                      class="oos-label"
+                  >épuisé</span>
                 </button>
               </div>
+              <p v-if="selectedSizeStock !== null" class="stock-hint">
+                <span v-if="isOutOfStock" class="stock-empty">Taille épuisée</span>
+                <span v-else-if="selectedSizeStock <= 5" class="stock-low">
+      Plus que {{ selectedSizeStock }} en stock
+    </span>
+                <span v-else class="stock-ok">En stock</span>
+              </p>
             </div>
 
             <!-- CTA -->
             <div class="cta-row">
               <button
-                v-if="!isQuoteOnly"
-                class="btn btn-solid cta-main"
-                :class="{ success: added }"
-                @click="addToCart"
+                  v-if="!isQuoteOnly"
+                  class="btn btn-solid cta-main"
+                  :class="{ success: added }"
+                  :disabled="isOutOfStock"
+                  @click="addToCart"
               >
-                {{ added ? '✓ Ajouté au panier' : 'Ajouter au panier' }}
+                {{ isOutOfStock ? 'Taille épuisée' : added ? '✓ Ajouté au panier' : 'Ajouter au panier' }}
               </button>
               <RouterLink v-else class="btn btn-solid cta-main" to="/#devis">
                 Demander un devis →
@@ -338,6 +369,13 @@ function addToCart() {
 .rel-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1rem; }
 .rel-tech { font-family: 'Caveat', cursive; font-weight: 700; color: var(--sage); font-size: 1rem; }
 .rel-price { font-family: 'Fraunces', serif; font-weight: 900; color: var(--brick); font-size: 0.95rem; margin-top: 4px; }
+
+.oos { opacity: 0.45; cursor: not-allowed; }
+.oos-label { font-size: 0.65rem; display: block; }
+.stock-hint { margin-top: 8px; font-size: 0.85rem; }
+.stock-ok { color: var(--sage); font-weight: 700; }
+.stock-low { color: var(--mustard); font-weight: 700; }
+.stock-empty { color: var(--brick); font-weight: 700; }
 
 @media (max-width: 900px) { .product-grid { grid-template-columns: 1fr; gap: 30px; } .details-grid { grid-template-columns: 1fr; } .related-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .related-grid { grid-template-columns: 1fr 1fr; } .cta-row { flex-direction: column; } }

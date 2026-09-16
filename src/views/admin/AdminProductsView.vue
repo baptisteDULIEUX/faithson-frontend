@@ -7,6 +7,34 @@ import ImageUploader from "@/components/ImageUploader.vue";
 
 const apiBase = import.meta.env.VITE_API_URL.replace('/api', '')
 
+const stockModal = ref(false)
+const stockProductId = ref(null)
+const stockProductName = ref('')
+const stockData = ref([])
+const stockSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
+
+async function openStock(p) {
+  stockProductId.value = p.id
+  stockProductName.value = p.name
+  const res = await fetch(`${apiBase}/products/${p.id}/stock`)
+  const existing = await res.json()
+  // initialise toutes les tailles avec 0 par défaut
+  stockData.value = (p.sizes || stockSizes).map((size) => {
+    const found = existing.find((s) => s.size === size)
+    return { size, quantity: found ? Number(found.quantity) : 0 }
+  })
+  stockModal.value = true
+}
+
+async function saveStock() {
+  await fetch(`${apiBase}/admin/products/${stockProductId.value}/stocks`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ stocks: stockData.value })
+  })
+  stockModal.value = false
+}
+
 const products = ref([])
 const loading = ref(true)
 
@@ -146,6 +174,7 @@ function catLabel(key) {
             <td><span class="adm-tech">{{ p.technique }}</span></td>
             <td class="adm-amt" style="text-align:left">{{ p.price == null ? 'sur devis' : p.price + ' €' }}</td>
             <td class="actions">
+              <button class="adm-btn adm-btn-out" @click.stop="openStock(p)">Stock</button>
               <button class="adm-btn adm-btn-out" @click="openEdit(p)">Modifier</button>
               <button class="adm-btn del" @click="remove(p)">Supprimer</button>
             </td>
@@ -232,6 +261,32 @@ function catLabel(key) {
       </div>
     </aside>
   </div>
+
+  <!-- Modale stock -->
+  <div class="overlay" :class="{ show: stockModal }" @click="stockModal = false"></div>
+  <div class="stock-modal" :class="{ show: stockModal }">
+    <div class="stock-head">
+      <h2>Stock — {{ stockProductName }}</h2>
+      <button class="close" @click="stockModal = false">✕</button>
+    </div>
+    <div class="stock-body">
+      <div class="stock-row" v-for="s in stockData" :key="s.size">
+        <span class="size-label">{{ s.size }}</span>
+        <div class="qty-ctrl">
+          <button @click="s.quantity = Math.max(0, s.quantity - 1)">−</button>
+          <input type="number" v-model.number="s.quantity" min="0" />
+          <button @click="s.quantity++">+</button>
+        </div>
+        <span class="qty-status" :class="{ low: s.quantity <= 5 && s.quantity > 0, empty: s.quantity === 0 }">
+        {{ s.quantity === 0 ? 'épuisé' : s.quantity <= 5 ? 'faible' : 'ok' }}
+      </span>
+      </div>
+    </div>
+    <div class="stock-foot">
+      <button class="adm-btn adm-btn-solid" @click="saveStock">Enregistrer</button>
+      <button class="adm-btn adm-btn-out" @click="stockModal = false">Annuler</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -280,4 +335,25 @@ code { background: var(--cream-2); border: 1px solid var(--line); border-radius:
 .size-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .size-btn { border: 1.5px solid var(--line); background: var(--panel); border-radius: 6px; padding: 0.4em 0.7em; font-family: 'Karla', sans-serif; font-weight: 700; font-size: 0.82rem; cursor: pointer; }
 .size-btn.on { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+.stock-modal {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%, -60%);
+  width: min(420px, 94vw); background: var(--cream); border: 1.5px solid var(--line);
+  border-radius: 14px; z-index: 100; opacity: 0; pointer-events: none;
+  transition: 0.2s; box-shadow: 0 30px 60px -20px #3a2e2755;
+}
+.stock-modal.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%); }
+.stock-head { display: flex; align-items: center; padding: 18px 22px; border-bottom: 1.5px solid var(--line); }
+.stock-head h2 { font-size: 1.1rem; font-weight: 900; }
+.close { margin-left: auto; background: var(--cream-2); border: 1.5px solid var(--line); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; }
+.stock-body { padding: 16px 22px; display: flex; flex-direction: column; gap: 12px; max-height: 360px; overflow-y: auto; }
+.stock-row { display: flex; align-items: center; gap: 14px; }
+.size-label { width: 36px; font-weight: 700; font-family: 'Fraunces', serif; }
+.qty-ctrl { display: flex; align-items: center; gap: 8px; flex: 1; }
+.qty-ctrl button { width: 32px; height: 32px; border: 1.5px solid var(--line); background: var(--cream); border-radius: 7px; cursor: pointer; font-weight: 700; font-size: 1rem; }
+.qty-ctrl input { width: 60px; text-align: center; padding: 0.4em; border: 1.5px solid var(--line); border-radius: 7px; font-family: 'Karla', sans-serif; font-size: 0.95rem; }
+.qty-status { font-size: 0.78rem; font-weight: 700; width: 48px; text-align: right; color: var(--sage); }
+.qty-status.low { color: var(--mustard); }
+.qty-status.empty { color: var(--brick); }
+.stock-foot { display: flex; gap: 10px; padding: 16px 22px; border-top: 1.5px solid var(--line); }
 </style>
