@@ -13,7 +13,8 @@ const nav = [
   { to: { name: 'admin-products' }, ic: '👕', label: 'Boutique' },
   { to: { name: 'admin-orders' }, ic: '🧾', label: 'Commandes' },
   { to: { name: 'admin-quotes' }, ic: '✎', label: 'Devis' },
-  { to: { name: 'admin-custom' }, ic: '🎨', label: 'Personnalisations' }
+  { to: { name: 'admin-custom' }, ic: '🎨', label: 'Personnalisations' },
+  { to: { name: 'admin-instagram' }, ic: '📷', label: 'Réalisations' }
 ]
 
 const pageTitle = computed(() => {
@@ -22,7 +23,8 @@ const pageTitle = computed(() => {
     'admin-products': 'Boutique',
     'admin-orders': 'Commandes',
     'admin-quotes': 'Devis',
-    'admin-custom': 'Personnalisations'
+    'admin-custom': 'Personnalisations',
+    'admin-instagram': 'Réalisations'
   }
   return map[route.name] || 'Admin'
 })

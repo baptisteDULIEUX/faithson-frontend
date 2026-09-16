@@ -29,7 +29,8 @@ const routes = [
       { path: 'boutique', name: 'admin-products', component: () => import('@/views/admin/AdminProductsView.vue') },
       { path: 'commandes', name: 'admin-orders', component: () => import('@/views/admin/AdminOrdersView.vue') },
       { path: 'devis', name: 'admin-quotes', component: () => import('@/views/admin/AdminQuotesView.vue') },
-      { path: 'personnalisations', name: 'admin-custom', component: () => import('@/views/admin/AdminCustomView.vue') }
+      { path: 'personnalisations', name: 'admin-custom', component: () => import('@/views/admin/AdminCustomView.vue') },
+      { path: 'instagram', name: 'admin-instagram', component: () => import('@/views/admin/AdminInstagramView.vue') },
     ]
   },
 
