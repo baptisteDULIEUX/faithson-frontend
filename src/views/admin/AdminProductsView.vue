@@ -16,7 +16,7 @@ const stockSizes = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']
 async function openStock(p) {
   stockProductId.value = p.id
   stockProductName.value = p.name
-  const res = await fetch(`${apiBase}/products/${p.id}/stock`)
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/products/${p.id}/stock`)
   const existing = await res.json()
   // initialise toutes les tailles avec 0 par défaut
   stockData.value = (p.sizes || stockSizes).map((size) => {
@@ -27,7 +27,7 @@ async function openStock(p) {
 }
 
 async function saveStock() {
-  await fetch(`${apiBase}/admin/products/${stockProductId.value}/stocks`, {
+  await fetch(`${import.meta.env.VITE_API_URL}/admin/products/${stockProductId.value}/stocks`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ stocks: stockData.value })
