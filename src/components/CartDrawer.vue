@@ -37,8 +37,9 @@ function goCheckout() {
             </div>
             <div class="info">
               <b>{{ item.name }}</b>
-              <span v-if="item.technique" class="tech">{{ item.technique }}</span>
-              <span v-if="item.size" class="tech">{{ item.size }}</span>
+              <span class="tech">
+  {{ [item.technique, item.size].filter(Boolean).join(' · ') }}
+</span>              <span v-if="item.size" class="tech">{{ item.size }}</span>
               <div class="qty">
                 <button @click="cart.setQty(i, item.qty - 1)" aria-label="moins">−</button>
                 <span>{{ item.qty }}</span>

@@ -238,7 +238,10 @@ async function pay() {
     const formattedItems = cart.items.map(item => ({
       price_data: {
         currency: 'eur',
-        product_data: { name: item.name },
+        product_data: {
+          name: item.size ? `${item.name} — ${item.size}` : item.name,
+          description: item.technique || undefined
+        },
         unit_amount: Math.round(item.price * 100),
       },
       quantity: item.qty,
