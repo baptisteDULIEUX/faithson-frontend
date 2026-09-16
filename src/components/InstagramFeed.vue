@@ -40,31 +40,29 @@ onMounted(async () => {
       </div>
 
       <div v-else class="ig-mosaic">
-
-        v-for="post in posts"
-        :key="post.id"
-        class="ig-cell"
-        :class="{ big: post.featured }"
-        :href="post.link || instagramUrl"
-        target="_blank"
-        rel="noopener"
+        <!-- CORRECTION : Ajout de la balise <a -->
+        <a
+            v-for="post in posts"
+            :key="post.id"
+            class="ig-cell"
+            :class="{ big: post.featured }"
+            :href="post.link || instagramUrl"
+            target="_blank"
+            rel="noopener"
         >
-        <template v-if="post.image_path">
           <img
+              v-if="post.image_path"
               :src="serverBase + post.image_path"
               :alt="post.caption"
               class="ig-img"
           />
-        </template>
-        <template v-else>
-          <div class="ig-ph">
+          <div v-else class="ig-ph">
             <span class="ph">▣</span>
             <span class="cap">{{ post.caption }}</span>
           </div>
-        </template>
         </a>
       </div>
-    </div>
+    </div> <!-- CORRECTION : Fermeture de div class="wrap" -->
   </section>
 </template>
 
