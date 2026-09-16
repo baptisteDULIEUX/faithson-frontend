@@ -235,9 +235,6 @@ function catLabel(key) {
               Sauvegardez d'abord le produit, puis revenez ajouter des images.
             </p>
           </div>
-          <p v-else class="frow-hint">
-            Sauvegardez d'abord le produit, puis revenez modifier son image.
-          </p>
         </div>
 
         <div class="frow">
