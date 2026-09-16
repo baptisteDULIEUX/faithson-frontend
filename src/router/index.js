@@ -31,6 +31,7 @@ const routes = [
       { path: 'devis', name: 'admin-quotes', component: () => import('@/views/admin/AdminQuotesView.vue') },
       { path: 'personnalisations', name: 'admin-custom', component: () => import('@/views/admin/AdminCustomView.vue') },
       { path: 'instagram', name: 'admin-instagram', component: () => import('@/views/admin/AdminInstagramView.vue') },
+      { path: 'reglages', name: 'admin-settings', component: () => import('@/views/admin/AdminSettingsView.vue') },
     ]
   },
 
