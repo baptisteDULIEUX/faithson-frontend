@@ -3,6 +3,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import api from '@/services/api'
 import GarmentIcon from '@/components/GarmentIcon.vue'
 import ImageUploader from "@/components/ImageUploader.vue";
+import ProductImages from '@/components/ProductImages.vue'
 
 
 const apiBase = import.meta.env.VITE_API_URL.replace('/api', '')
@@ -228,12 +229,12 @@ function catLabel(key) {
 
         <div class="frow">
           <label>Image du produit</label>
-          <ImageUploader
-              v-if="editingId"
-              :productId="editingId"
-              :currentImage="form.image"
-              @uploaded="(url) => { form.image = url }"
-          />
+          <div class="frow">
+            <ProductImages v-if="editingId" :productId="editingId" />
+            <p v-else class="frow-hint">
+              Sauvegardez d'abord le produit, puis revenez ajouter des images.
+            </p>
+          </div>
           <p v-else class="frow-hint">
             Sauvegardez d'abord le produit, puis revenez modifier son image.
           </p>
