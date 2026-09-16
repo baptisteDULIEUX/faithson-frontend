@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
 import api from '@/services/api'
@@ -17,6 +17,14 @@ const qty = ref(1)
 const selectedTechnique = ref(null)
 const imgError = ref(false)
 const added = ref(false)
+
+const selectedSize = ref(null)
+
+
+// sélectionne automatiquement la première taille disponible
+watch(product, (p) => {
+  if (p?.sizes?.length) selectedSize.value = p.sizes[0]
+}, { immediate: true })
 
 onMounted(async () => {
   allProducts.value = await api.getProducts()
@@ -50,7 +58,7 @@ const related = computed(() => {
 
 function addToCart() {
   if (!product.value || isQuoteOnly.value) return
-  cart.add({ ...product.value, technique: selectedTechnique.value }, qty.value)
+  cart.add({ ...product.value, technique: selectedTechnique.value, size: selectedSize }, qty.value)
   added.value = true
   setTimeout(() => (added.value = false), 2000)
 }
@@ -130,6 +138,21 @@ function addToCart() {
                 <span class="qty-val">{{ qty }}</span>
                 <button class="qty-btn" @click="qty++">+</button>
                 <span class="qty-min" v-if="product.minQty > 1">min. {{ product.minQty }} pièces</span>
+              </div>
+            </div>
+
+            <div class="field" v-if="product.sizes && product.sizes.length">
+              <label>Taille</label>
+              <div class="seg">
+                <button
+                    v-for="size in product.sizes"
+                    :key="size"
+                    class="seg-btn"
+                    :class="{ on: selectedSize === size }"
+                    @click="selectedSize = size"
+                >
+                  {{ size }}
+                </button>
               </div>
             </div>
 
